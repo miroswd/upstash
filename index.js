@@ -11,13 +11,19 @@ const {
 
 
 
-const client = new Redis(String(REDIS_URL));
 
 const app = express();
 app.use(cors());
 
+app.get("/", async (req, res) => {
+  return res.status(200).json({
+    hi: "Miro"
+  })
+})
+
 
 app.get("/hi", async (req, res) => {
+  const client = new Redis(String(REDIS_URL));
 
   const { name } = req.query;
 
@@ -27,7 +33,7 @@ app.get("/hi", async (req, res) => {
 
   await client.set('name', String(name));
 
-  return res.status(200).json({
+  return res.status(201).json({
     success: true
   });
 })
